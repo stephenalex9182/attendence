@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | vmedu</title>
+    <link href="VMEDU/frontend/static/css/style.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Override default bg for richer login screen */
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+        <div class="glass-panel" style="padding: 3rem 2rem; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+            <h1 style="margin-bottom: 0.5rem; color: #1e293b;">Welcome Back</h1>
+            <p style="margin-bottom: 2.5rem; color: #64748b;">Enter your credentials to access your account</p>
+
+            <form id="loginForm">
+                <input type="email" id="email" class="input-field" placeholder="Email (e.g., ruthiwic@mlrit.ac.in)"
+                    required style="margin-bottom: 1rem;">
+                <input type="password" id="password" class="input-field" placeholder="Password" required
+                    style="margin-bottom: 1.5rem;">
+                <button type="submit" class="btn" style="width: 100%; padding: 1rem; font-size: 1rem;">Sign In</button>
+            </form>
+
+            <div
+                style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); font-size: 0.9rem; color: #64748b; text-align: left;">
+                <div style="margin-bottom: 0.5rem;"><strong>Demo Credentials:</strong></div>
+                <div>Faculty: ruthiwic@mlrit.ac.in / password123</div>
+                <div>Student: Use your enrolled email</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="VMEDU/frontend/static/js/api.js"></script>
+    <script src="VMEDU/frontend/static/js/ui.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = e.target.querySelector('button');
+
+            try {
+                btn.textContent = "Signing In...";
+                btn.disabled = true;
+
+                const data = await Api.login(email, password);
+
+                // Decode token to find role
+                const payload = JSON.parse(atob(data.access_token.split('.')[1]));
+
+                UI.showToast("Login Successful!", "success");
+
+                setTimeout(() => {
+                    if (payload.role === 'faculty') {
+                        window.location.href = 'VMEDU/frontend/faculty_dashboard.html';
+                    } else {
+                        window.location.href = 'VMEDU/frontend/student_dashboard.html';
+                    }
+                }, 800);
+
+            } catch (err) {
+                UI.showToast('Invalid credentials. Please try again.', 'error');
+                btn.textContent = "Sign In";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
