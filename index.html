@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | vmedu</title>
-    <link href="VMEDU/frontend/static/css/style.css" rel="stylesheet">
+    <link href="vmedu/frontend/static/css/style.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,8 +52,8 @@
         </div>
     </div>
 
-    <script src="VMEDU/frontend/static/js/api.js"></script>
-    <script src="VMEDU/frontend/static/js/ui.js"></script>
+    <script src="vmedu/frontend/static/js/api.js"></script>
+    <script src="vmedu/frontend/static/js/ui.js"></script>
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -74,9 +74,9 @@
 
                 setTimeout(() => {
                     if (payload.role === 'faculty') {
-                        window.location.href = 'VMEDU/frontend/faculty_dashboard.html';
+                        window.location.href = 'vmedu/frontend/faculty_dashboard.html';
                     } else {
-                        window.location.href = 'VMEDU/frontend/student_dashboard.html';
+                        window.location.href = 'vmedu/frontend/student_dashboard.html';
                     }
                 }, 800);
 
@@ -88,5 +88,6 @@
         });
     </script>
 </body>
+
 
 </html>
